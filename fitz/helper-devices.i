@@ -547,7 +547,8 @@ jm_lineart_pop_clip(fz_context *ctx, fz_device *dev_)
 static void
 jm_lineart_begin_layer(fz_context *ctx, fz_device *dev_, const char *name)
 {
-	layer_name = name;
+	layer_name = realloc(layer_name, strlen(name) + 1);
+	strcpy(layer_name, name);
 }
 
 static void

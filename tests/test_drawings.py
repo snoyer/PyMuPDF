@@ -175,3 +175,15 @@ def test_2462():
     doc = fitz.open(f"{scriptdir}/resources/test-2462.pdf")
     page = doc[0]
     vg = page.get_drawings(extended=True)
+
+def test_oc_layer_name():
+    doc = fitz.open()
+    oc = doc.add_ocg("layer 1")
+    page = doc.new_page()
+    
+    shape = page.new_shape()
+    shape.draw_rect((5, 5, 95, 95))
+    shape.finish(fill=(0, 0, 0), oc=oc)
+    shape.commit()
+
+    assert [d.get("layer") for d in doc[0].get_drawings()] == ["layer 1"]
